@@ -1,0 +1,143 @@
+# Pages placed under these sections will be shown on homepage and archive page.
+mainSections = ["post"]
+# Output page's full content in RSS.
+rssFullContent = true
+favicon = "/favicon.ico"
+
+
+[footer]
+since = 2020
+customText = "View <a href='https://legacy.lemoe.cn/' target='_blank'>Legacy Version</a> | <a href='https://0wo.top/' target='_blank'>0wo Live Version</a> "
+[dateFormat]
+published = "2006-01-02, Monday"
+lastUpdated = "2006-01-02 15:04 CST"
+
+[sidebar]
+emoji = "🤗"
+subtitle = "Developer, Undergraduate"
+
+[sidebar.avatar]
+enabled = true
+local = true
+src = "img/avatar.jpg"
+
+[article]
+math = true
+readingTime = true
+
+[article.license]
+enabled = true
+default = "署名-相同方式共享 4.0 国际 (CC BY-SA 4.0)"
+
+## Widgets
+[[widgets.homepage]]
+type = "search"
+
+[[widgets.homepage]]
+type = "archives"
+
+[widgets.homepage.params]
+limit = 8
+
+[[widgets.homepage]]
+type = "categories"
+
+[widgets.homepage.params]
+limit = 12
+
+[[widgets.homepage]]
+type = "tag-cloud"
+
+[widgets.homepage.params]
+limit = 20
+
+[[widgets.page]]
+type = "toc"
+
+[opengraph.twitter]
+site = ""
+card = "summary_large_image"
+
+[defaultImage.opengraph]
+enabled = false
+local = false
+src = ""
+
+[colorScheme]
+toggle = true
+default = "auto"
+
+[imageProcessing.cover]
+enabled = true
+
+[imageProcessing.content]
+enabled = true
+
+## Comments
+[comments]
+enabled = true
+provider = "twikoo"
+
+
+# [comments.utterances]
+# repo = ""
+# issueTerm = "pathname"
+# label = ""
+
+# [comments.remark42]
+# host = ""
+# site = ""
+# locale = ""
+
+# [comments.vssue]
+# platform = ""
+# owner = ""
+# repo = ""
+# clientId = ""
+# clientSecret = ""
+# autoCreateIssue = false
+
+# [comments.waline]
+# serverURL = ""
+# lang = ""
+# visitor = ""
+# avatar = ""
+# emoji = ["https://cdn.jsdelivr.net/gh/walinejs/emojis/weibo"]
+# requiredMeta = ["name", "email", "url"]
+# placeholder = ""
+
+# [comments.waline.locale]
+# admin = "Admin"
+
+[comments.twikoo]
+envId = ""
+region = ""
+path = ""
+lang = ""
+
+# [comments.cactus]
+# defaultHomeserverUrl = "https://matrix.cactus.chat:8448"
+# serverName = "cactus.chat"
+# siteName = ""
+
+# [comments.giscus]
+# repo = ""
+# repoID = ""
+# category = ""
+# categoryID = ""
+# mapping = ""
+# lightTheme = ""
+# darkTheme = ""
+# reactionsEnabled = 1
+# emitMetadata = 0
+
+# [comments.gitalk]
+# owner = ""
+# admin = ""
+# repo = ""
+# clientID = ""
+# clientSecret = ""
+
+# [comments.cusdis]
+# host = ""
+# id = ""

@@ -1,0 +1,12 @@
+# Uncomment this file to enable multilanguage site support
+
+[en]
+    languageName = "English"
+    languagedirection = "ltr"
+    title = "Lemoe Cyber Space"
+    weight = 1
+[zh-cn]
+    languageName = "中文"
+    languagedirection = "ltr"
+    title = "柠萌赛博自留地"
+    weight = 2

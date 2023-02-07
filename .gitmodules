@@ -1,0 +1,3 @@
+[submodule "lemoe.cn"]
+	path = hugo/public
+	url = https://git.qmcmc.cn/qctech/lemoe.cn

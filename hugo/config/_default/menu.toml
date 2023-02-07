@@ -1,0 +1,33 @@
+# Configure main menu and social menu
+#[[main]]
+#identifier = "home"
+#name = "Home"
+#url = "/"
+#[main.params]
+#icon = "home"
+#newtab = true
+
+[[social]]
+identifier = "github"
+name = "GitHub"
+url = "https://github.com/tennousuathena/"
+
+[social.params]
+icon = "brand-github"
+
+[[social]]
+identifier = "twitter"
+name = "Twitter"
+url = "https://twitter.com/_tennousuathena"
+
+[social.params]
+icon = "brand-twitter"
+
+
+[[social]]
+identifier = "gitea"
+name = "Gitea"
+url = "https://git.qmcmc.cn/qctech"
+
+[social.params]
+icon = "brand-git"
