@@ -28,7 +28,7 @@ steps:
   - yarn
   - npm install -g ts-node --registry=https://registry.npmmirror.com
   - cd hugo
-  - git clone https://git.qmcmc.cn/qctech/notion2hugo public
+  - git clone https://github.com/TennousuAthena/TennousuAthena.github.io.git public
   - cd ../ && ts-node src/main.ts
 
 - name: Hugo-build
@@ -43,7 +43,7 @@ steps:
   image: appleboy/drone-git-push
   settings:
     branch: master
-    remote: ssh://git@git.qmcmc.cn:222/qctech/lemoe.cn.git
+    remote: git@github.com:TennousuAthena/TennousuAthena.github.io.git
     force: true
     remote_name: master
     commit: true
