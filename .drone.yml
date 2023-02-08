@@ -31,7 +31,7 @@ steps:
   - git remote set-url origin https://git.qmcmc.cn/qctech/notion2hugo
   - git fetch --all 
   - git reset --hard origin/master 
-  - git pull
+  - git pull origin master
   - cd ../../ && ts-node src/main.ts
 
 - name: Hugo-build
