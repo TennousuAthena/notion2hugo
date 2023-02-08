@@ -34,7 +34,8 @@ steps:
   image: klakegg/hugo:ext-alpine-ci
   commands:
   - cd hugo && hugo
-  - cp ../.gitmodules public
+  - cd public && git lfs track "*.png"
+  - cd public && git lfs track "*.jpg"
 
 - name: rebuild-cache
   image: drillster/drone-volume-cache
