@@ -2,8 +2,10 @@ import {Client} from "@notionhq/client";
 import {NotionToMarkdown} from "notion-to-md";
 import {config as configDotenv} from 'dotenv'
 import {resolve} from 'path'
-import { writeFileSync, readFile, existsSync, mkdirSync } from "fs";
+import { writeFileSync, readFile, createWriteStream, existsSync, mkdirSync } from "fs";
 import {Post} from "./type/post";
+import https from 'https'
+import { MdBlock } from "notion-to-md/build/types";
 
 declare global {
   interface String {
@@ -40,7 +42,7 @@ const notion = new Client({
 });
 
 const n2m = new NotionToMarkdown({ notionClient: notion });
-
+// 自定义解析器
 n2m.setCustomTransformer('equation', async (block) => {
   const {equation} = block as any;
   if (!equation?.expression) return '';
@@ -51,6 +53,7 @@ $$`;
 });
 
 (async () => {
+  // 获取所有文章
   const myPage = await notion.databases.query({
     database_id: process.env.NOTION_DB,
     "filter": {
@@ -60,6 +63,7 @@ $$`;
         }
     } 
   })
+  // 读取模板
   let fileTemplate = "";
   readFile('template/article.md', (err, data) => {
     if (err) {
@@ -71,7 +75,7 @@ $$`;
   myPage.results.forEach(async (page :any) => {
     const mdblocks = await n2m.pageToMarkdown(page.id);
     
-    const mdString = n2m.toMarkdownString(mdblocks);
+    
     await notion.pages.retrieve({ page_id: page.id }).then((pageInfo:any) => {
       console.log("Processing page: "+pageInfo.properties.Name.title[0].plain_text)
       let description = typeof pageInfo.properties.Description.rich_text[0] != "undefined" ? pageInfo.properties.Description.rich_text[0].plain_text : '';
@@ -108,6 +112,71 @@ $$`;
         categories += '  - '+c + "\n"
       })
 
+      //创建目录
+      const dir = "hugo/content/post/"+fileName;
+      mdblocks.forEach((block) => {
+        if (block.type === 'image' || image) {
+          if (!existsSync(dir)) {
+            console.log("Creating directory: "+dir)
+            mkdirSync(dir, { recursive: true });
+          }
+          return;
+        }
+      })
+
+
+      // 替换图片地址
+      let count = 0;
+      const processImg = (block : MdBlock) => {
+        if(block.children) {
+          block.children.forEach((child) => {
+            processImg(child)
+          })
+        }
+          if (block.type === 'image') {
+            count++;
+            const match : any = block.parent.match(/!\[(.*?)\]\((.*?)\)/);
+            const uuid = match[2].match(/([a-f\d]{8}(-[a-f\d]{4}){3}-[a-f\d]{12}?)/i)[1]
+            if(!existsSync(`${dir}/${uuid}.png`)){
+              https.get(match[2], (res) => {
+                  const file = createWriteStream(`${dir}/${uuid}.png`);
+                  res.pipe(file);
+                  file.on('finish', () => {
+                      file.close();
+                      console.log(`${uuid} downloaded!`);
+                  });
+              }).on("error", (err) => {
+                  console.log("Error: ", err.message);
+              });
+            }
+            block.parent = block.parent.replace(match[2], `${uuid}.png`)
+          }
+        return block;
+      }
+
+      mdblocks.forEach((block) => {
+        block = processImg(block)
+      })
+
+      // 替换Image链接地址
+      if(image && !existsSync(`${dir}/header.png`)){
+        https.get(image, (res) => {
+            const file = createWriteStream(`${dir}/header.png`);
+            res.pipe(file);
+            file.on('finish', () => {
+                file.close();
+                console.log(`Header downloaded!`);
+            });
+        }).on("error", (err) => {
+            console.log("Error: ", err.message);
+        });
+      }
+      if(image){
+        image = 'header.png'
+      }
+
+      // 生成文章信息
+      const mdString = n2m.toMarkdownString(mdblocks);
       let post : Post = {
         title: articleTitle,
         description: description,
@@ -125,14 +194,12 @@ $$`;
 
       try{
         console.log("Writing file: "+fileName+".md")
-        // const dir = "hugo/content/post/"+fileName;
-        // if (!existsSync(dir)) {
-        //   console.log("Creating directory: "+dir)
-        //   mkdirSync(dir, { recursive: true });
-        // }
-        // writeFileSync("hugo/content/post/"+fileName+"/index.md", fileContent, {flag: 'w'})
-        writeFileSync("hugo/content/post/"+fileName+".md", fileContent, {flag: 'w'})
-
+        if(count || image){
+          console.log("Counted "+count+" images in total")
+          writeFileSync("hugo/content/post/"+fileName+"/index.md", fileContent, {flag: 'w'})
+        }else{
+          writeFileSync("hugo/content/post/"+fileName+".md", fileContent, {flag: 'w'})
+        }
       }
       catch(err){
         console.error(err)

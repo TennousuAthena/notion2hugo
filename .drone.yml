@@ -1,0 +1,71 @@
+kind: pipeline
+type: docker
+name: Auto build
+
+steps:
+- name: restore-cache
+  image: drillster/drone-volume-cache
+  volumes:
+    - name: cache
+      path: /cache
+  settings:
+    restore: true
+    mount:
+      - ./hugo/public
+
+- name: node-install
+  image: node
+  commands:
+  - node -v
+  - npm -v
+  - yarn
+
+- name: Notion2Hugo
+  image: node
+  environment:
+    NODE_ENV: CI
+    NOTION_TOKEN:
+      from_secret: NOTION_TOKEN
+    NOTION_DB:
+      from_secret: NOTION_DB
+  commands:
+  - ts-node src/main.ts
+
+- name: Hugo-build
+  image: hugo
+  commands:
+  - cd hugo && hugo
+
+- name: rebuild-cache
+  image: drillster/drone-volume-cache
+  volumes:
+    - name: cache
+      path: /cache
+  settings:
+    rebuild: true
+    mount:
+      - ./hugo/public
+
+- name: Webhook
+  image: plugins/webhook
+  settings:
+    username: qctech
+    password: 
+      from_secret: WEBHOOK_PASS
+    urls: http://43.158.199.246:5678/webhook/9935eaf8-75ed-4989-8c22-feedd2c3a43d
+    content_type: application/json
+    template: |
+      {
+        "owner": "{{ repo.owner }}",
+        "repo": "{{ repo.name }}",
+        "status": "{{ build.status }}",
+        "build": "{{ build.link }}",
+        "commit_link": "{{ build.link }}",
+        "commit_message": "{{commit.message}}",
+        "author": "{{commit.author}}"
+      }
+
+volumes:
+  - name: cache
+    host:
+      path: /tmp/lemoe.cn
