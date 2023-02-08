@@ -45,25 +45,6 @@ steps:
     mount:
       - ./hugo/public
 
-- name: Webhook
-  image: plugins/webhook
-  settings:
-    username: qctech
-    password: 
-      from_secret: WEBHOOK_PASS
-    urls: http://43.158.199.246:5678/webhook/9935eaf8-75ed-4989-8c22-feedd2c3a43d
-    content_type: application/json
-    template: |
-      {
-        "owner": "{{ repo.owner }}",
-        "repo": "{{ repo.name }}",
-        "status": "{{ build.status }}",
-        "build": "{{ build.link }}",
-        "commit_link": "{{ build.link }}",
-        "commit_message": "{{commit.message}}",
-        "author": "{{commit.author}}"
-      }
-
 - name: git-push
   image: appleboy/drone-git-push
   settings:
