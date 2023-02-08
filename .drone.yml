@@ -32,7 +32,7 @@ steps:
   - ts-node src/main.ts
 
 - name: Hugo-build
-  image: hugo
+  image: klakegg/hugo
   commands:
   - cd hugo && hugo
 
