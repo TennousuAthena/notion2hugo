@@ -3,6 +3,15 @@ type: docker
 name: Auto build
 
 steps:
+- name: restore-cache
+  image: drillster/drone-volume-cache
+  volumes:
+    - name: cache
+      path: /cache
+  settings:
+    restore: true
+    mount:
+      - ./hugo/content/post
 
 - name: Notion2Hugo
   image: node
@@ -42,3 +51,19 @@ steps:
     author_email: me@lemoe.cn
     ssh_key:
       from_secret: SSH_KEY
+
+- name: rebuild-cache
+  image: drillster/drone-volume-cache
+  volumes:
+    - name: cache
+      path: /cache
+  settings:
+    rebuild: true
+    mount:
+      - ./hugo/content/post
+
+
+volumes:
+  - name: cache
+    host:
+      path: /tmp/lemoe
