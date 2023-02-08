@@ -31,7 +31,7 @@ steps:
 - name: Hugo-build
   image: klakegg/hugo
   commands:
-  - cd hugo && hugo
+  - cd hugo && go get && hugo
 
 - name: rebuild-cache
   image: drillster/drone-volume-cache
