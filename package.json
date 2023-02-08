@@ -6,7 +6,6 @@
     "@typescript-eslint/parser": "^5.51.0",
     "dotenv": "^16.0.3",
     "eslint": "^8.33.0",
-    "notion-to-md": "^2.5.5",
-    "ts-node": "^10.9.1"
+    "notion-to-md": "^2.5.5"
   }
 }
