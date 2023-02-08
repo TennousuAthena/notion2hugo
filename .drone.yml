@@ -64,7 +64,6 @@ steps:
         "author": "{{commit.author}}"
       }
 
-steps:
 - name: git-push
   image: appleboy/drone-git-push
   settings:
