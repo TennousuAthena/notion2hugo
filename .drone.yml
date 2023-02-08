@@ -28,7 +28,7 @@ steps:
   - yarn
   - npm install -g ts-node --registry=https://registry.npmmirror.com
   - cd hugo
-  - git clone https://git.qmcmc.cn/qctech/notion2hugo public
+  - git clone https://git.qmcmc.cn/qctech/lemoe.cn public
   - cd ../ && ts-node src/main.ts
 
 - name: Hugo-build
