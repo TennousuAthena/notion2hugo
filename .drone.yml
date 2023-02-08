@@ -32,7 +32,7 @@ steps:
 - name: Hugo-build
   image: klakegg/hugo:ext-alpine-ci
   commands:
-  - cd hugo && go get && hugo
+  - cd hugo && hugo
 
 - name: rebuild-cache
   image: drillster/drone-volume-cache
