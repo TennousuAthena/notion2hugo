@@ -29,9 +29,8 @@ steps:
   - ts-node src/main.ts
 
 - name: Hugo-build
-  image: klakegg/hugo
+  image: klakegg/hugo:ext-alpine-ci
   commands:
-  - shell
   - cd hugo && go get && hugo
 
 - name: rebuild-cache
