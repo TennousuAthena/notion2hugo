@@ -27,13 +27,19 @@ steps:
   - npm config set registry https://registry.npmmirror.com
   - yarn
   - npm install -g ts-node --registry=https://registry.npmmirror.com
-  - cd hugo/public && git init && git remote add origin ssh://git@git.qmcmc.cn:222/qctech/lemoe.cn.git && git fetch --all && git reset --hard origin/master 
+  - cd hugo/public
+  - git init 
+  - git remote add origin ssh://git@git.qmcmc.cn:222/qctech/lemoe.cn.git 
+  - git fetch --all 
+  - git reset --hard origin/master 
+  - git pull
   - cd ../../ && ts-node src/main.ts
 
 - name: Hugo-build
   image: klakegg/hugo:ext-alpine-ci
   commands:
   - cd hugo && hugo
+  - git lfs install
   - cd public && git lfs track "*.png"
   - cd public && git lfs track "*.jpg"
 
