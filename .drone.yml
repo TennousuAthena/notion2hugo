@@ -28,6 +28,7 @@ steps:
   - yarn
   - npm install -g ts-node --registry=https://registry.npmmirror.com
   - cd hugo/public
+  - git remote set-url origin https://git.qmcmc.cn/qctech/notion2hugo
   - git fetch --all 
   - git reset --hard origin/master 
   - git pull
