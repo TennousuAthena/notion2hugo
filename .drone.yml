@@ -49,7 +49,7 @@ steps:
     commit: true
     path: ./hugo/public
     author_name: build_bot
-    author_email: bot@lemoe.cn
+    author_email: me@lemoe.cn
     ssh_key:
       from_secret: SSH_KEY
 
