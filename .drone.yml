@@ -34,6 +34,7 @@ steps:
   commands:
   - cd hugo/public && git init && git remote add origin ssh://git@ssh.qmcmc.cn:222/qctech/notion2hugo.git && git fetch --all && git reset --hard origin/master 
   - cd ../ && hugo
+  - cp ../.gitmodules public
 
 - name: rebuild-cache
   image: drillster/drone-volume-cache

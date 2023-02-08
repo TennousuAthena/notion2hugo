@@ -110,7 +110,7 @@ provider = "twikoo"
 # admin = "Admin"
 
 [comments.twikoo]
-envId = ""
+envId = "oac-1625586813-7gh4l1f625045281"
 region = ""
 path = ""
 lang = ""
