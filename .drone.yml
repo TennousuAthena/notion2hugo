@@ -45,10 +45,11 @@ steps:
     branch: master
     remote: ssh://git@git.qmcmc.cn:222/qctech/lemoe.cn.git
     # force: true
+    remote_name: master
     commit: true
     path: ./hugo/public
     author_name: build_bot
-    author_email: me@lemoe.cn
+    author_email: bot@lemoe.cn
     ssh_key:
       from_secret: SSH_KEY
 
