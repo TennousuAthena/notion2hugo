@@ -3,15 +3,6 @@ type: docker
 name: Auto build
 
 steps:
-- name: restore-cache
-  image: drillster/drone-volume-cache
-  volumes:
-    - name: cache
-      path: /cache
-  settings:
-    restore: true
-    mount:
-      - ./hugo/public
 
 - name: Notion2Hugo
   image: node
@@ -27,10 +18,9 @@ steps:
   - npm config set registry https://registry.npmmirror.com
   - yarn
   - npm install -g ts-node --registry=https://registry.npmmirror.com
-  - cd hugo/public
-  - git remote set-url origin https://git.qmcmc.cn/qctech/notion2hugo
-  - git pull origin master
-  - cd ../../ && ts-node src/main.ts
+  - cd hugo
+  - git clone https://git.qmcmc.cn/qctech/notion2hugo public
+  - cd ../ && ts-node src/main.ts
 
 - name: Hugo-build
   image: klakegg/hugo:ext-alpine-ci
@@ -39,16 +29,6 @@ steps:
   # - git lfs install
   # - cd public && git lfs track "*.png"
   # - cd public && git lfs track "*.jpg"
-
-- name: rebuild-cache
-  image: drillster/drone-volume-cache
-  volumes:
-    - name: cache
-      path: /cache
-  settings:
-    rebuild: true
-    mount:
-      - ./hugo/public
 
 - name: git-push
   image: appleboy/drone-git-push
@@ -62,8 +42,3 @@ steps:
     author_email: me@lemoe.cn
     ssh_key:
       from_secret: SSH_KEY
-
-volumes:
-  - name: cache
-    host:
-      path: /tmp/lemoe.cn
