@@ -24,6 +24,7 @@ steps:
   commands:
   - node -v
   - npm -v
+  - npm config set registry https://registry.npmmirror.com
   - yarn
   - npm install -g ts-node
   - ts-node src/main.ts
