@@ -2,6 +2,7 @@ baseURL = 'https://lemoe.cn/'
 languageCode = 'zh-cn'
 title = '柠萌赛博自留地'
 
+timeout = '600s'
 [[module.imports]]
 path = "github.com/CaiJimmy/hugo-theme-stack/v3"
 
