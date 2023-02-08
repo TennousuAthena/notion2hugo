@@ -49,7 +49,7 @@ steps:
   image: appleboy/drone-git-push
   settings:
     branch: master
-    remote: git@ssh.qmcmc.cn:222/qctech/lemoe.cn.git
+    remote: git@git.qmcmc.cn:222/qctech/lemoe.cn.git
     force: true
     commit: true
     path: ./hugo/public
