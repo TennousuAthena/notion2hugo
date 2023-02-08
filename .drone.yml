@@ -51,7 +51,7 @@ steps:
   settings:
     branch: master
     remote: ssh://git@git.qmcmc.cn:222/qctech/lemoe.cn.git
-    force: true
+    # force: true
     commit: true
     path: ./hugo/public
     author_name: build_bot
