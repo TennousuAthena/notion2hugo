@@ -26,7 +26,7 @@ steps:
   - npm -v
   - npm config set registry https://registry.npmmirror.com
   - yarn
-  - npm install -g ts-node
+  - npm install -g ts-node --registry=https://registry.npmmirror.com
   - ts-node src/main.ts
 
 - name: Hugo-build
