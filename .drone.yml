@@ -19,6 +19,7 @@ steps:
   - node -v
   - npm -v
   - yarn
+  - npm install -g ts-node
 
 - name: Notion2Hugo
   image: node
