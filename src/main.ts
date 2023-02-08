@@ -136,8 +136,12 @@ $$`;
           if (block.type === 'image') {
             count++;
             const match : any = block.parent.match(/!\[(.*?)\]\((.*?)\)/);
-            if(!match) return block;
-            const uuid = match[2].match(/([a-f\d]{8}(-[a-f\d]{4}){3}-[a-f\d]{12}?)/i)[1]
+            const match_uuid = match[2].match(/([a-f\d]{8}(-[a-f\d]{4}){3}-[a-f\d]{12}?)/i);
+            if(!match_uuid){
+              return block;
+            }
+            const uuid = match_uuid[1]
+
             if(!existsSync(`${dir}/${uuid}.png`)){
               https.get(match[2], (res) => {
                   const file = createWriteStream(`${dir}/${uuid}.png`);
