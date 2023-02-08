@@ -13,14 +13,6 @@ steps:
     mount:
       - ./hugo/public
 
-- name: node-install
-  image: node
-  commands:
-  - node -v
-  - npm -v
-  - yarn
-  - npm install -g ts-node
-
 - name: Notion2Hugo
   image: node
   environment:
@@ -30,6 +22,10 @@ steps:
     NOTION_DB:
       from_secret: NOTION_DB
   commands:
+  - node -v
+  - npm -v
+  - yarn
+  - npm install -g ts-node
   - ts-node src/main.ts
 
 - name: Hugo-build
