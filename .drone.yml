@@ -28,7 +28,7 @@ steps:
   - yarn
   - npm install -g ts-node --registry=https://registry.npmmirror.com
   - cd hugo/public && git init && git remote add origin ssh://git@git.qmcmc.cn:222/qctech/lemoe.cn.git && git fetch --all && git reset --hard origin/master 
-  - ts-node ../../src/main.ts
+  - cd ../../ && ts-node src/main.ts
 
 - name: Hugo-build
   image: klakegg/hugo:ext-alpine-ci
