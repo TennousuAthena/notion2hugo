@@ -32,7 +32,8 @@ steps:
 - name: Hugo-build
   image: klakegg/hugo:ext-alpine-ci
   commands:
-  - cd hugo && hugo
+  - cd hugo/public && git init && git remote add origin ssh://git@ssh.qmcmc.cn:222/qctech/notion2hugo.git && git fetch --all && git reset --hard origin/master 
+  - cd ../ && hugo
 
 - name: rebuild-cache
   image: drillster/drone-volume-cache
@@ -62,6 +63,20 @@ steps:
         "commit_message": "{{commit.message}}",
         "author": "{{commit.author}}"
       }
+
+steps:
+- name: git-push
+  image: appleboy/drone-git-push
+  settings:
+    branch: master
+    remote: git@ssh.qmcmc.cn:222/qctech/lemoe.cn.git
+    force: true
+    commit: true
+    path: ./hugo/public
+    author_name: build_bot
+    author_email: me@lemoe.cn
+    ssh_key:
+      from_secret: SSH_KEY
 
 volumes:
   - name: cache
