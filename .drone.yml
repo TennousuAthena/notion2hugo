@@ -44,7 +44,7 @@ steps:
   settings:
     branch: master
     remote: ssh://git@git.qmcmc.cn:222/qctech/lemoe.cn.git
-    # force: true
+    force: true
     remote_name: master
     commit: true
     path: ./hugo/public
