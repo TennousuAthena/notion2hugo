@@ -32,7 +32,7 @@ steps:
 - name: Hugo-build
   image: klakegg/hugo:ext-alpine-ci
   commands:
-  - cd hugo/public && git init && git remote add origin ssh://git@ssh.qmcmc.cn:222/qctech/notion2hugo.git && git fetch --all && git reset --hard origin/master 
+  - cd hugo/public && git init && git remote add origin ssh://git@git.qmcmc.cn:222/qctech/notion2hugo.git && git fetch --all && git reset --hard origin/master 
   - cd ../ && hugo
   - cp ../.gitmodules public
 
@@ -50,7 +50,7 @@ steps:
   image: appleboy/drone-git-push
   settings:
     branch: master
-    remote: ssh://git@ssh.qmcmc.cn:222/qctech/lemoe.cn.git
+    remote: ssh://git@git.qmcmc.cn:222/qctech/lemoe.cn.git
     force: true
     commit: true
     path: ./hugo/public
