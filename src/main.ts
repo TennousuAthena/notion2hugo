@@ -136,6 +136,9 @@ $$`;
         if (block.type === 'image' || block.type === 'file') {
             count++;
             const match : any = block.parent.match(/\[(.*?)\]\((.*?)\)/);
+            if(match[2].indexOf("secure.notion-static.com") ==-1) {
+              return block;
+            }
             const match_uuid = match[2].match(/([a-f\d]{8}(-[a-f\d]{4}){3}-[a-f\d]{12}?)/i);
             const ext = match[2].split("?")[0].split(".").pop()
             if(!match_uuid || !ext){
