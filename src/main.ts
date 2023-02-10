@@ -133,28 +133,29 @@ $$`;
             processImg(child)
           })
         }
-          if (block.type === 'image') {
+        if (block.type === 'image' || block.type === 'file') {
             count++;
-            const match : any = block.parent.match(/!\[(.*?)\]\((.*?)\)/);
+            const match : any = block.parent.match(/\[(.*?)\]\((.*?)\)/);
             const match_uuid = match[2].match(/([a-f\d]{8}(-[a-f\d]{4}){3}-[a-f\d]{12}?)/i);
-            if(!match_uuid){
+            const ext = match[2].split("?")[0].split(".").pop()
+            if(!match_uuid || !ext){
               return block;
             }
             const uuid = match_uuid[1]
 
-            if(!existsSync(`${dir}/${uuid}.png`)){
+            if(!existsSync(`${dir}/${uuid}.${ext}`)){
               https.get(match[2], (res) => {
-                  const file = createWriteStream(`${dir}/${uuid}.png`);
+                  const file = createWriteStream(`${dir}/${uuid}.${ext}`);
                   res.pipe(file);
                   file.on('finish', () => {
                       file.close();
-                      console.log(`${uuid} downloaded!`);
+                      console.log(`${uuid}.${ext} downloaded!`);
                   });
               }).on("error", (err) => {
                   console.log("Error: ", err.message);
               });
             }
-            block.parent = block.parent.replace(match[2], `${uuid}.png`)
+            block.parent = block.parent.replace(match[2], `${uuid}.${ext}`)
           }
         return block;
       }
@@ -200,7 +201,7 @@ $$`;
       try{
         console.log("Writing file: "+fileName+".md")
         if(count || image){
-          console.log("Counted "+count+" images in total")
+          console.log("Found "+count+" asset(s) in total")
           writeFileSync("hugo/content/post/"+fileName+"/index.md", fileContent, {flag: 'w'})
         }else{
           writeFileSync("hugo/content/post/"+fileName+".md", fileContent, {flag: 'w'})

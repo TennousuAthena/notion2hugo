@@ -37,7 +37,7 @@ const n2m = new NotionToMarkdown({ notionClient: notion });
 (async () => {
 
   const processImg = (block : MdBlock) => {
-    if (block.type === 'image') {
+    if (block.type === 'image' || block.type === 'file') {
       if(block.children) {
         block.children.forEach((child) => {
           processImg(child)
@@ -45,10 +45,11 @@ const n2m = new NotionToMarkdown({ notionClient: notion });
       }  
 
       count++;
-      const match : any = block.parent.match(/!\[(.*?)\]\((.*?)\)/);
+      const match : any = block.parent.match(/\[(.*?)\]\((.*?)\)/);
       const uuid = match[2].match(/([a-f\d]{8}(-[a-f\d]{4}){3}-[a-f\d]{12}?)/i)[1]
-      https.get(match[2], (res) => {
-          const file = createWriteStream(`tmp/${uuid}.png`);
+      https.get(match[2], (res: any) => {
+        const ext = match[2].split("?")[0].split(".").pop()
+          const file = createWriteStream(`tmp/${uuid}.${ext}`);
           res.pipe(file);
           file.on('finish', () => {
               file.close();
@@ -63,7 +64,7 @@ const n2m = new NotionToMarkdown({ notionClient: notion });
   }
 
 
-  const mdblocks = await n2m.pageToMarkdown("1bf0688031c14c65a035e4fd6dc5f4fa");
+  const mdblocks = await n2m.pageToMarkdown("ff7bba42a48f48f68aaf32859bbc51b5");
   let count = 0;
   mdblocks.forEach((block) => {
     block = processImg(block)
