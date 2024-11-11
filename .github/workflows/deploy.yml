@@ -51,6 +51,13 @@ jobs:
       - name: Build Hugo
         run: cd hugo && hugo
 
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.DEPLOY_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+
       - name: Deploy
         run: |
           cd hugo/public
@@ -58,4 +65,4 @@ jobs:
           git config --global user.email "bot@lemoe.cn"
           git add .
           git commit -m "Deploy by GitHub Actions"
-          git push --force "https://${{ secrets.DEPLOY_TOKEN }}@git.qmcmc.cn/qctech/lemoe.cn.git" HEAD:master
+          git push --force git@github.com:TennousuAthena/lemoe.cn.git HEAD:master
