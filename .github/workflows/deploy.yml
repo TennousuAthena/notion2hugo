@@ -15,24 +15,21 @@ jobs:
           submodules: true
           fetch-depth: 0
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v1
         with:
-          node-version: "20"
-          registry-url: "https://registry.npmmirror.com"
+          bun-version: latest
 
-      - name: Cache node modules
+      - name: Cache dependencies
         uses: actions/cache@v3
         with:
           path: ./hugo/content/post
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lockb') }}
           restore-keys: |
-            ${{ runner.os }}-node-
+            ${{ runner.os }}-bun-
 
       - name: Install Dependencies
-        run: |
-          npm install
-          npm install -g ts-node
+        run: bun install
 
       - name: Notion to Hugo
         env:
@@ -41,8 +38,8 @@ jobs:
           NODE_ENV: CI
         run: |
           cd hugo
-          git clone https://git.qmcmc.cn/qctech/lemoe.cn public
-          cd ../ && ts-node src/main.ts
+          git clone https://github.com/TennousuAthena/lemoe.cn public
+          cd ../ && bun run src/main.ts
 
       - name: Setup Hugo
         uses: peaceiris/actions-hugo@v2
