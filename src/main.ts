@@ -12,6 +12,7 @@ import {
 import { Post } from "./type/post";
 import https from "https";
 import { MdBlock } from "notion-to-md/build/types";
+import assert from "assert";
 
 declare global {
   interface String {
@@ -37,6 +38,9 @@ switch (process.env.NODE_ENV) {
     });
     break;
 }
+
+assert(process.env.NOTION_TOKEN, "NOTION_TOKEN is not set");
+assert(process.env.NOTION_DB, "NOTION_DB is not set");
 
 String.prototype.render = function (context) {
   return this.replace(/{{(.*?)}}/g, (match, key) => context[key.trim()]);
