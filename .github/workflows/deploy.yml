@@ -1,0 +1,63 @@
+name: Deploy Hugo site
+
+on:
+  push:
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmmirror.com"
+
+      - name: Cache node modules
+        uses: actions/cache@v3
+        with:
+          path: ./hugo/content/post
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Install Dependencies
+        run: |
+          npm install
+          npm install -g ts-node
+
+      - name: Notion to Hugo
+        env:
+          NOTION_TOKEN: ${{ secrets.NOTION_TOKEN }}
+          NOTION_DB: ${{ secrets.NOTION_DB }}
+          NODE_ENV: CI
+        run: |
+          cd hugo
+          git clone https://git.qmcmc.cn/qctech/lemoe.cn public
+          cd ../ && ts-node src/main.ts
+
+      - name: Setup Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: "latest"
+          extended: true
+
+      - name: Build Hugo
+        run: cd hugo && hugo
+
+      - name: Deploy
+        run: |
+          cd hugo/public
+          git config --global user.name "build_bot"
+          git config --global user.email "bot@lemoe.cn"
+          git add .
+          git commit -m "Deploy by GitHub Actions"
+          git push --force "https://${{ secrets.DEPLOY_TOKEN }}@git.qmcmc.cn/qctech/lemoe.cn.git" HEAD:master

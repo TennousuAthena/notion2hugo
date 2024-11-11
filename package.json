@@ -1,11 +1,14 @@
 {
+  "scripts": {
+    "start": "bun src/main.ts"
+  },
   "dependencies": {
-    "@notionhq/client": "^2.2.3",
-    "@types/node": "^18.11.19",
-    "@typescript-eslint/eslint-plugin": "^5.51.0",
-    "@typescript-eslint/parser": "^5.51.0",
-    "dotenv": "^16.0.3",
-    "eslint": "^8.33.0",
-    "notion-to-md": "^2.5.5"
+    "@notionhq/client": "^2.2.15",
+    "@types/node": "^18.19.64",
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "dotenv": "^16.4.5",
+    "eslint": "^8.57.1",
+    "notion-to-md": "^2.7.0"
   }
 }
