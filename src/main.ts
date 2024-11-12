@@ -164,6 +164,9 @@ $$`;
           if (match[2].indexOf("secure.notion-static.com") == -1) {
             return block;
           }
+          if (match[2].indexOf("s3.us-west-2.amazonaws.com") != -1) {
+            return block;
+          }
           const match_uuid = match[2].match(
             /([a-f\d]{8}(-[a-f\d]{4}){3}-[a-f\d]{12}?)/i
           );
