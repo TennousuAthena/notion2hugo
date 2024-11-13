@@ -4,11 +4,11 @@
   },
   "dependencies": {
     "@notionhq/client": "^2.2.15",
-    "@types/node": "^18.19.64",
+    "@types/node": "^22.9.0",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "dotenv": "^16.4.5",
     "eslint": "^8.57.1",
-    "notion-to-md": "^2.7.0"
+    "notion-to-md": "^3.1.1"
   }
 }
